@@ -32,5 +32,7 @@ public class Orc : Creature
         Console.WriteLine($"Hi, I'm {Name} the Orc! Level {Level}, Rage {Rage}.");
     }
 
+    public override string Info => $"{Name} [{Level}][{Rage}]";
+
     public override int Power => 7 * Level + 3 * Rage;
 }

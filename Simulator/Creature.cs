@@ -8,13 +8,13 @@ public abstract class Creature
     public string Name
     {
         get => name;
-        init => name = Validator.Shortener(value, 3, 25, '#');
+        set => name = Validator.Shortener(value, 3, 25, '#');
     }
 
     public int Level
     {
         get => level;
-        init => level = Validator.Limiter(value, 1, 10);
+        set => level = Validator.Limiter(value, 1, 10);
     }
 
     public Creature() { }
@@ -25,12 +25,16 @@ public abstract class Creature
         Level = level;
     }
 
-    public void Upgrade()
-    {
-        level = Validator.Limiter(level + 1, 1, 10);
-    }
+    public void Upgrade() => Level = Validator.Limiter(Level + 1, 1, 10);
 
     public abstract void SayHi();
+
+    public abstract string Info { get; }
+
+    public override string ToString()
+    {
+        return $"{GetType().Name.ToUpper()}: {Info}";
+    }
 
     public abstract int Power { get; }
 }

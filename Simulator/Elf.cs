@@ -32,5 +32,7 @@ public class Elf : Creature
         Console.WriteLine($"Hi, I'm {Name} the Elf! Level {Level}, Agility {Agility}.");
     }
 
+    public override string Info => $"{Name} [{Level}][{Agility}]";
+
     public override int Power => 8 * Level + 2 * Agility;
 }

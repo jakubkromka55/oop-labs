@@ -1,36 +1,57 @@
-﻿using Simulator;
+﻿namespace Simulator;
 
-static void TestElfsAndOrcs()
+internal class Program
 {
-    Console.WriteLine("HUNT TEST\n");
-    var o = new Orc() { Name = "Gorbag", Rage = 7 };
-    o.SayHi();
-    for (int i = 0; i < 10; i++)
+    static void Main(string[] args)
     {
-        o.Hunt();
-        o.SayHi();
+        TestValidators();
+
+        TestObjectsToString();
+
+        Console.WriteLine("\nKoniec testów.");
+        Console.WriteLine("Naciśnij dowolny klawisz, aby zamknąć...");
+        Console.ReadKey();
     }
 
-    Console.WriteLine("\nSING TEST\n");
-    var e = new Elf("Legolas", agility: 2);
-    e.SayHi();
-    for (int i = 0; i < 10; i++)
+    static void TestValidators()
     {
-        e.Sing();
-        e.SayHi();
+        Console.WriteLine("=== VALIDATOR TEST ===\n");
+
+        Creature[] creatures = {
+            new Elf("   legolas   ", 15, 2),
+            new Orc("   gorbag", -1, -3),
+            new Elf("a", 1, 0),
+            new Orc("#########", 2, 15)
+        };
+
+        foreach (var c in creatures)
+        {
+            c.SayHi();
+            Console.WriteLine($"{c.Name,-20} Level:{c.Level} Power:{c.Power}\n");
+        }
+
+        var a = new Animals() { Description = "   Cats " };
+        Console.WriteLine(a.Info);
+
+        a = new Animals() { Description = "Mice           are great", Size = 40 };
+        Console.WriteLine(a.Info);
     }
 
-    Console.WriteLine("\nPOWER TEST\n");
-    Creature[] creatures = {
-        o,
-        e,
-        new Orc("Morgash", 3, 8),
-        new Elf("Elandor", 5, 3)
-    };
-    foreach (Creature creature in creatures)
+    static void TestObjectsToString()
     {
-        Console.WriteLine($"{creature.Name,-15}: {creature.Power}");
+        Console.WriteLine("\n=== OBJECTS ToString TEST ===\n");
+
+        object[] myObjects = {
+            new Animals() { Description = "dogs"},
+            new Birds { Description = "  eagles ", Size = 10 },
+            new Elf("e", 15, -3),
+            new Orc("morgash", 6, 4)
+        };
+
+        Console.WriteLine("My objects:");
+        foreach (var o in myObjects)
+        {
+            Console.WriteLine(o);
+        }
     }
 }
-
-TestElfsAndOrcs();
