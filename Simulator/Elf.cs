@@ -2,18 +2,18 @@
 
 public class Elf : Creature
 {
-    private int agility = 1;
-    private int singCount = 0;
+    private int agility;
+    private int singCounter = 0;
 
     public int Agility
     {
         get => agility;
-        init => agility = Clamp(value, 0, 10);
+        set => agility = Validator.Limiter(value, 0, 10);
     }
 
-    public Elf() : base() { }
+    public Elf() { }
 
-    public Elf(string name = "Unknown", int level = 1, int agility = 1)
+    public Elf(string name, int level = 1, int agility = 1)
         : base(name, level)
     {
         Agility = agility;
@@ -21,21 +21,16 @@ public class Elf : Creature
 
     public void Sing()
     {
-        singCount++;
         Console.WriteLine($"{Name} is singing.");
-
-        if (singCount % 3 == 0)
-        {
-            if (agility < 10) agility++;
-        }
+        singCounter++;
+        if (singCounter % 3 == 0)
+            Agility++;
     }
 
     public override void SayHi()
     {
-        Console.WriteLine($"Hi! I'm {Name} (elf), level {Level}, agility {Agility}.");
+        Console.WriteLine($"Hi, I'm {Name} the Elf! Level {Level}, Agility {Agility}.");
     }
 
     public override int Power => 8 * Level + 2 * Agility;
-
-    private static int Clamp(int v, int min, int max) => v < min ? min : (v > max ? max : v);
 }
