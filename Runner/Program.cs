@@ -1,4 +1,5 @@
-﻿namespace Simulator;
+﻿using Simulator;
+namespace Simulator;
 
 internal class Program
 {
