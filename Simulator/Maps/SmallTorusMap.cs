@@ -1,46 +1,77 @@
-ï»¿using System;
+using System;
 
-namespace Simulator.Maps;
-
-public class SmallTorusMap : Map
+namespace Simulator.Maps
 {
-    public int Size { get; }
-
-    public SmallTorusMap(int size)
+    public class SmallTorusMap : Map
     {
-        if (size < 5 || size > 20)
-            throw new ArgumentOutOfRangeException(nameof(size));
+        public SmallTorusMap(int sizeX, int sizeY)
+            : base(sizeX, sizeY)
+        {
+            if (sizeX > 20 || sizeY > 20)
+                throw new ArgumentException("SmallTorusMap mo¿e mieæ maksymalnie 20x20.");
+        }
 
-        Size = size;
-    }
+        public override bool Exist(Point p)
+        {
+ 
+            return true;
+        }
 
-    public override bool Exist(Simulator.Point p)
-    {
-        return p.X >= 0 && p.X < Size && p.Y >= 0 && p.Y < Size;
-    }
+        public override Point Next(Point current, Direction direction)
+        {
+            int x = current.X;
+            int y = current.Y;
 
-    private int Wrap(int value)
-    {
-        if (value < 0) return Size - 1;
-        if (value >= Size) return 0;
-        return value;
-    }
+            switch (direction)
+            {
+                case Direction.Up: y--; break;
+                case Direction.Down: y++; break;
+                case Direction.Left: x--; break;
+                case Direction.Right: x++; break;
+            }
 
-    public override Simulator.Point Next(Simulator.Point p, Simulator.Direction d)
-    {
-        var next = p.Next(d);
-        return new Simulator.Point(
-            Wrap(next.X),
-            Wrap(next.Y)
-        );
-    }
+            x = (x + SizeX) % SizeX;
+            y = (y + SizeY) % SizeY;
 
-    public override Simulator.Point NextDiagonal(Simulator.Point p, Simulator.Direction d)
-    {
-        var next = p.NextDiagonal(d);
-        return new Simulator.Point(
-            Wrap(next.X),
-            Wrap(next.Y)
-        );
+            return new Point(x, y);
+        }
+
+        public Point NextDiagonal(Point p, int step)
+        {
+            int x = p.X + step;
+            int y = p.Y + step;
+
+            x = (x % SizeX + SizeX) % SizeX;
+            y = (y % SizeY + SizeY) % SizeY;
+
+            return new Point(x, y);
+        }
+
+        public Point NextDiagonal(Point p, Direction direction)
+        {
+            int dx = 0;
+            int dy = 0;
+
+            switch (direction)
+            {
+                case Direction.Up:
+                    dx = -1; dy = -1;
+                    break;
+                case Direction.Down:
+                    dx = 1; dy = 1;
+                    break;
+                case Direction.Left:
+                    dx = -1; dy = 1;
+                    break;
+                case Direction.Right:
+                    dx = 1; dy = -1;
+                    break;
+            }
+
+            int x = (p.X + dx + SizeX) % SizeX;
+            int y = (p.Y + dy + SizeY) % SizeY;
+
+            return new Point(x, y);
+        }
     }
 }

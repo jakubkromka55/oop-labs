@@ -1,0 +1,38 @@
+﻿namespace Simulator;
+
+public class Orc : Creature
+{
+    private int rage;
+    private int huntCounter = 0;
+
+    public int Rage
+    {
+        get => rage;
+        set => rage = Validator.Limiter(value, 0, 10);
+    }
+
+    public Orc() { }
+
+    public Orc(string name, int level = 1, int rage = 1)
+        : base(name, level)
+    {
+        Rage = rage;
+    }
+
+    public void Hunt()
+    {
+        
+        huntCounter++;
+        if (huntCounter % 2 == 0)
+            Rage++;
+    }
+
+    public override void SayHi()
+    {
+        
+    }
+
+    public override string Info => $"{Name} [{Level}][{Rage}]";
+
+    public override int Power => 7 * Level + 3 * Rage;
+}

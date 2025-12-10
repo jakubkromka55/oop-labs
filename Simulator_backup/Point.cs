@@ -1,16 +1,10 @@
 namespace Simulator;
 
-public readonly struct Point : IEquatable<Point>
+public readonly struct Point
 {
     public readonly int X, Y;
     public Point(int x, int y) => (X, Y) = (x, y);
     public override string ToString() => $"({X}, {Y})";
-
-    public bool Equals(Point other) => X==other.X && Y==other.Y;
-    public override bool Equals(object? obj) => obj is Point p && Equals(p);
-    public override int GetHashCode() => HashCode.Combine(X,Y);
-    public static bool operator ==(Point a, Point b) => a.Equals(b);
-    public static bool operator !=(Point a, Point b) => !a.Equals(b);
 
     public Point Next(Direction d) =>
         d switch {
